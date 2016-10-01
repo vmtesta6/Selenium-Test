@@ -138,6 +138,7 @@ public class Suite implements ITestListener {
 		TestNG tng = new TestNG();
 		tng.addListener(rtest);
 		rtest.runTests(tng);
+		driver.quit();
 	}
 
 	@Override
