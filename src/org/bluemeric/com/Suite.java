@@ -48,7 +48,7 @@ public class Suite implements ITestListener {
 
 	public WebDriver newDriver() {
 		if (driver == null) {
-			return new FirefoxDriver();//return new PhantomJSDriver();
+			return new PhantomJSDriver();//return new PhantomJSDriver();
 		}
 		return driver;
 	}
@@ -129,7 +129,7 @@ public class Suite implements ITestListener {
 		//System.setProperty("webdriver.chrome.driver", "driver/chromedriver.exe");
 		System.setProperty("file.log","./log/log.log");
 		PropertyConfigurator.configure("./log4j.properties");
-		driver=new FirefoxDriver(); //driver=new PhantomJSDriver();
+		driver=new PhantomJSDriver(); //driver=new PhantomJSDriver();
 		Suite rtest = new Suite();
 		System.out.println("Test started.......");
 		deleteFile();
