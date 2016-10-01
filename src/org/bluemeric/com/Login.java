@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.util.Properties;
 
 import org.bluemeric.com.Utility;
-import org.sikuli.script.SikuliException;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
