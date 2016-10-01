@@ -1,6 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>App-Testing</groupId>
+  <groupId>org.bluemeric.com</groupId>
   <artifactId>App-Testing</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <repositories>
@@ -36,25 +36,33 @@
       </plugin>
       <!-- Here we can add class file which we have to run -->
       <plugin>
-      	<groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>1.2.1</version>
-        	<executions>
-            	<execution>
-                	<phase>test</phase>
-                    	<goals>
-                        	<goal>java</goal>
-                        </goals>
-                </execution>
-           	</executions>
-             	<configuration>
-                	<mainClass>org.bluemeric.com.Suite</mainClass>
-                    	<arguments>
-                        	<!-- <argument>Google</argument> -->
-                           <!--  <argument>Azure</argument> -->
-                      	</arguments>
-                </configuration>
-		</plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.4.1</version>
+				<configuration>
+					<!-- get all project dependencies -->
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+					<!-- MainClass in mainfest make a executable jar -->
+					<archive>
+					  <manifest>
+						<mainClass>org.bluemeric.com.Suite</mainClass>
+					  </manifest>
+					</archive>
+
+				</configuration>
+				<executions>
+				  <execution>
+					<id>make-assembly</id>
+                                        <!-- bind to the packaging phase -->
+					<phase>package</phase>
+					<goals>
+						<goal>single</goal>
+					</goals>
+				  </execution>
+				</executions>
+			</plugin>
     </plugins>
   </build>
    <!-- Properties will use to add the dependency from local repository -->
@@ -116,11 +124,11 @@
     			<artifactId>log4j</artifactId>
     			<version>1.2.17</version>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
     <groupId>com.github.detro</groupId>
     <artifactId>phantomjsdriver</artifactId>
     <version>1.2.0</version>
-</dependency>
+</dependency> -->
 		<dependency>
     			<groupId>org.seleniumhq.selenium</groupId>
     			<artifactId>selenium-server</artifactId>
