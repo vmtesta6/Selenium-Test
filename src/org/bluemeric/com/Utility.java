@@ -32,7 +32,7 @@ public class Utility implements ITestListener {
 	static Logger log = Logger.getLogger(Utility.class);
 	
 	
-	public void signup(String username) throws IOException {
+	public void title(String username) throws IOException {
 		driver.get(url);
 		driver.manage().window().maximize();
 		System.out.println("hi sample");
@@ -114,7 +114,7 @@ public class Utility implements ITestListener {
 	public String screenshot(String screenshot) throws IOException {
 		
 		File screen = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-		FileUtils.copyFile(screen, new File(screenload + screenshot + ".png"));
+		FileUtils.copyFile(screen, new File(screenload +screenshot + ".png"));
 		System.setProperty("org.uncommons.reportng.escape-output", "false");
 		String image = screenget + screenshot + ".png";
 		Reporter.log("<a title= \"title\" href=\"" + image + "\">" + "<img width=\"700\" height=\"550\" src=\"" + image

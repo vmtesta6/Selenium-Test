@@ -13,6 +13,7 @@ import javax.xml.bind.JAXBException;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.bluemeric.common.XmltoJava;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.ITestContext;
@@ -26,7 +27,8 @@ import org.testng.xml.XmlTest;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.phantomjs.PhantomJSDriver;
+//import org.openqa.selenium.phantomjs.PhantomJSDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class Suite implements ITestListener {
 
@@ -47,8 +49,14 @@ public class Suite implements ITestListener {
 	}
 
 	public WebDriver newDriver() {
+		Capabilities caps = ((RemoteWebDriver)driver).getCapabilities();
+		String browser = caps.getBrowserName();
 		if (driver == null) {
-			return new PhantomJSDriver();//return new PhantomJSDriver();
+			if(browser.equals("firefox")){
+				return new FirefoxDriver();
+			}else{
+		//	return new PhantomJSDriver();//return new PhantomJSDriver();
+			}
 		}
 		return driver;
 	}
@@ -129,7 +137,8 @@ public class Suite implements ITestListener {
 		//System.setProperty("webdriver.chrome.driver", "driver/chromedriver.exe");
 		System.setProperty("file.log","./log/log.log");
 		PropertyConfigurator.configure("./log4j.properties");
-		driver=new PhantomJSDriver(); //driver=new PhantomJSDriver();
+		//driver=new PhantomJSDriver(); //driver=new PhantomJSDriver();
+		driver = new FirefoxDriver();
 		Suite rtest = new Suite();
 		System.out.println("Test started.......");
 		deleteFile();

@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.util.Properties;
 
 import org.bluemeric.com.Utility;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
@@ -33,8 +36,9 @@ import com.relevantcodes.extentreports.LogStatus;
 	Properties prop = new Properties();
 	ExtentReports report = Suite.report;
 	ExtentTest test = Suite.test;
-	//Suite suite = new Suite();
-	
+	Suite suite = new Suite();
+	WebDriver driver = suite.newDriver();
+	static String url = "http://" + System.getProperty("APP_ENDPOINT");
 	
 	@Parameters({"suiteName"})
 	@BeforeMethod
@@ -52,9 +56,28 @@ import com.relevantcodes.extentreports.LogStatus;
 	 }
 	@Parameters({"param","param1"})
 	@Test
-	public void signup(@Optional String param,@Optional String param1) throws IOException{
-		utility.signup(param);
+	public void title(@Optional String param,@Optional String param1) throws IOException{
+		//utility.title(param);
 	}
+	
+	@Parameters({"param","param1"})
+	@Test
+	public void register(@Optional String param,@Optional String param1) throws IOException{
+		//utility.title(param);
+	}
+	
+	@Parameters({"param","param1"})
+	@Test
+	public void login(@Optional String param,@Optional String param1) throws IOException{
+		//utility.title(param);
+	}
+	
+	
+	
+	
+	
+	
+	
 	/*@Parameters({"param","param1","Depends","suiteName"})
 	@Test
 	public void login(@Optional String param,@Optional String param1,@Optional String Depends,@Optional String suiteName) throws IOException{
@@ -91,12 +114,17 @@ import com.relevantcodes.extentreports.LogStatus;
 	@Parameters({"suiteName"})
 	@AfterMethod
 		public void screenshot(ITestResult arg0,@Optional String suiteName) {
+		
+		Capabilities caps = ((RemoteWebDriver)driver).getCapabilities();
 		String screenshotname =suiteName+arg0.getName().toString(); 
 		try {
 		     String screenshot =  utility.screenshot(screenshotname);;
 			 System.setProperty("org.uncommons.reportng.escape-output", "false");
 			   Reporter.setCurrentTestResult(arg0); //// output gets lost without this entry
-				  Reporter.log(
+			   String browser = "Browser: "+caps.getBrowserName().toUpperCase();
+			   String platform = "Platform: "+caps.getPlatform().toString();
+			   Reporter.log("<b> <font color='red'>"+browser+"\n"+platform+"</font></b>");
+			   Reporter.log(
 				  "<a title= \"title\" href=\"" + screenshot + "\">" +
 				 "<img width=\"700\" height=\"550\" src=\"" + screenshot +
 				  "\"></a>");

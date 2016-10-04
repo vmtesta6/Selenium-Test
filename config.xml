@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <XmltoJava name="Selenium_Automation">
-      <suite suitename="Polls-BasicTests" classname="Login">
-     <parameter name="Polls-BasicTests" testcase="signup" param="testuser" param1="" param2="" dependson=""/> 
+ 	<suite suitename="Polls-BasicTests" classname="Login">
+     		<parameter name="Polls-BasicTests" testcase="title" param="testuser" param1="" param2="" dependson=""/>
+     		<parameter name="Polls-BasicTests" testcase="register" param="" param1="" param2="" dependson=""/>
+     		<parameter name="Polls-BasicTests" testcase="login" param="" param1="" param2="" dependson=""/> 
 	</suite> 
-   </XmltoJava>
+</XmltoJava>
 
 
 
