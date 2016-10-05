@@ -9,9 +9,14 @@ import java.io.IOException;
 import java.util.Properties;
 
 import org.bluemeric.com.Utility;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.interactions.HasInputDevices;
+import org.openqa.selenium.interactions.Keyboard;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
@@ -27,6 +32,8 @@ import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 
+import junit.framework.Assert;
+
 @Listeners(org.uncommons.reportng.HTMLReporter.class)
 	public class Login implements ITestListener{
 
@@ -39,7 +46,7 @@ import com.relevantcodes.extentreports.LogStatus;
 	Suite suite = new Suite();
 	WebDriver driver = suite.newDriver();
 	static String url = "http://" + System.getProperty("APP_ENDPOINT");
-	
+	//static String url = "http://104.199.152.4:30000/login";
 	@Parameters({"suiteName"})
 	@BeforeMethod
 	 public void createreport(ITestContext arg0,@Optional String suiteName){
@@ -54,29 +61,60 @@ import com.relevantcodes.extentreports.LogStatus;
 		e.printStackTrace();
 		}
 	 }
+	
 	@Parameters({"param","param1"})
 	@Test
 	public void title(@Optional String param,@Optional String param1) throws IOException{
 		//utility.title(param);
-	}
-	
-	@Parameters({"param","param1"})
-	@Test
-	public void register(@Optional String param,@Optional String param1) throws IOException{
-		//utility.title(param);
+		driver.get(url);
+		driver.manage().window().maximize();
+		Assert.assertEquals(driver.getTitle(), "New to Cantas?");
 	}
 	
 	@Parameters({"param","param1"})
 	@Test
 	public void login(@Optional String param,@Optional String param1) throws IOException{
 		//utility.title(param);
+		WebDriverWait wait = new WebDriverWait(driver, 100);
+		wait.until(ExpectedConditions.visibilityOfElementLocated((By.id("username-login")))).sendKeys(param);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("password-login"))).sendKeys(param1);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("html/body/section/div/form/button"))).click();
+		String board = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='wrapper']/div[3]/div/div[2]/div/div[1]/h3"))).getText();
+		Assert.assertEquals(board, "My Boards");
+		System.out.println("====> Login Succeed");
 	}
 	
+	@Parameters({"param","param1"})
+	@Test
+	public void add_board(@Optional String param,@Optional String param1) throws IOException{
 	
+		WebDriverWait wait = new WebDriverWait(driver, 100);
+		wait.until(ExpectedConditions.visibilityOfElementLocated((By.xpath(".//*[@id='wrapper']/div[3]/div/div[2]/div/div[1]/a")))).click();
+		wait.until(ExpectedConditions.visibilityOfElementLocated((By.xpath(".//*[@id='board-header']/div[1]")))).click();
+		wait.until(ExpectedConditions.visibilityOfElementLocated((By.id("board-title-input")))).sendKeys(param);
+		wait.until(ExpectedConditions.visibilityOfElementLocated((By.id("board-title-save")))).click();
+		Keyboard kb = ((HasInputDevices)driver).getKeyboard();
+		wait.until(ExpectedConditions.visibilityOfElementLocated((By.xpath(".//*[@id='eso-topbar']/a")))).click();
+		//wait.until(ExpectedConditions.visibilityOfElementLocated((By.xpath(".//*[@id='card-form']")))).sendKeys(param1);
+		//wait.until(ExpectedConditions.visibilityOfElementLocated((By.xpath(".//*[@id='57f43a35c5f5821100000068']/section/div/footer/button[1]")))).click();
+		String task = wait.until(ExpectedConditions.visibilityOfElementLocated((By.xpath(".//*[@id='wrapper']/div[3]/div/div[2]/div/ul/li[1]/a[1]")))).getText();
+		Assert.assertEquals(task, "Vinothini");
+		System.out.println("====> Board Added Successfully");
+	}
 	
+	@Parameters({"param","param1"})
+	@Test
+	public void logout(@Optional String param,@Optional String param1) throws IOException, InterruptedException{
 	
-	
-	
+		WebDriverWait wait = new WebDriverWait(driver, 100);
+		wait.until(ExpectedConditions.visibilityOfElementLocated((By.xpath(".//*[@id='eso-topbar']/ul/li[1]/a")))).click();
+		wait.until(ExpectedConditions.visibilityOfElementLocated((By.xpath(".//*[@id='eso-topbar']/ul/li[1]/ul/li[2]/a")))).click();
+		String task = wait.until(ExpectedConditions.visibilityOfElementLocated((By.xpath(".//*[@id='loginWithGoogle']")))).getText();
+		Assert.assertEquals(task, "Log in with Google");
+		System.out.println("====> logout succeed");
+		Thread.sleep(300000);
+	}
+		
 	
 	/*@Parameters({"param","param1","Depends","suiteName"})
 	@Test
@@ -123,7 +161,7 @@ import com.relevantcodes.extentreports.LogStatus;
 			   Reporter.setCurrentTestResult(arg0); //// output gets lost without this entry
 			   String browser = "Browser: "+caps.getBrowserName().toUpperCase();
 			   String platform = "Platform: "+caps.getPlatform().toString();
-			   Reporter.log("<b> <font color='red'>"+browser+"\n"+platform+"</font></b>");
+			   Reporter.log("<b> <font color='blue'>"+url+"\n"+browser+"\n"+platform+"</font></b>");
 			   Reporter.log(
 				  "<a title= \"title\" href=\"" + screenshot + "\">" +
 				 "<img width=\"700\" height=\"550\" src=\"" + screenshot +
