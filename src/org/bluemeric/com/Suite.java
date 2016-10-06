@@ -54,7 +54,8 @@ public class Suite implements ITestListener {
 		if (driver == null) {
 			if(browser.equals("firefox")){
 				return new FirefoxDriver();
-			}else{
+			}else if(browser.contains("chrome")){
+				return new ChromeDriver();
 		//	return new PhantomJSDriver();//return new PhantomJSDriver();
 			}
 		}
@@ -134,11 +135,13 @@ public class Suite implements ITestListener {
 		tng.run();
 	}
 	public static void main(String[] args) throws JAXBException, Exception {
-		//System.setProperty("webdriver.chrome.driver", "driver/chromedriver.exe");
+		System.out.println(projectHome);
+		System.setProperty("webdriver.chrome.driver", projectHome+"/driver/chromedriver");
 		System.setProperty("file.log","./log/log.log");
 		PropertyConfigurator.configure("./log4j.properties");
 		//driver=new PhantomJSDriver(); //driver=new PhantomJSDriver();
-		driver = new FirefoxDriver();
+		//driver = new FirefoxDriver();
+		driver = new ChromeDriver();
 		Suite rtest = new Suite();
 		System.out.println("Test started.......");
 		deleteFile();

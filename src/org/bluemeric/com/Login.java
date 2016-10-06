@@ -45,8 +45,8 @@ import junit.framework.Assert;
 	ExtentTest test = Suite.test;
 	Suite suite = new Suite();
 	WebDriver driver = suite.newDriver();
-	static String url = "http://" + System.getProperty("APP_ENDPOINT");
-	//static String url = "http://104.199.152.4:30000/login";
+	//static String url = "http://" + System.getProperty("APP_ENDPOINT");
+	static String url = "http://104.199.152.4:30000/login";
 	@Parameters({"suiteName"})
 	@BeforeMethod
 	 public void createreport(ITestContext arg0,@Optional String suiteName){
@@ -93,7 +93,7 @@ import junit.framework.Assert;
 		wait.until(ExpectedConditions.visibilityOfElementLocated((By.xpath(".//*[@id='board-header']/div[1]")))).click();
 		wait.until(ExpectedConditions.visibilityOfElementLocated((By.id("board-title-input")))).sendKeys(param);
 		wait.until(ExpectedConditions.visibilityOfElementLocated((By.id("board-title-save")))).click();
-		Keyboard kb = ((HasInputDevices)driver).getKeyboard();
+		//Keyboard kb = ((HasInputDevices)driver).getKeyboard();
 		wait.until(ExpectedConditions.visibilityOfElementLocated((By.xpath(".//*[@id='eso-topbar']/a")))).click();
 		//wait.until(ExpectedConditions.visibilityOfElementLocated((By.xpath(".//*[@id='card-form']")))).sendKeys(param1);
 		//wait.until(ExpectedConditions.visibilityOfElementLocated((By.xpath(".//*[@id='57f43a35c5f5821100000068']/section/div/footer/button[1]")))).click();
@@ -112,7 +112,7 @@ import junit.framework.Assert;
 		String task = wait.until(ExpectedConditions.visibilityOfElementLocated((By.xpath(".//*[@id='loginWithGoogle']")))).getText();
 		Assert.assertEquals(task, "Log in with Google");
 		System.out.println("====> logout succeed");
-		Thread.sleep(300000);
+		//Thread.sleep(300000);
 	}
 		
 	
